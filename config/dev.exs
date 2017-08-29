@@ -51,7 +51,7 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :events, Events.Repo,
   adapter: Ecto.Adapters.MySQL,
-  username: "vale",
+  username: "root",
   password: "",
   database: "events_dev",
   hostname: "localhost",
