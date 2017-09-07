@@ -3,6 +3,7 @@ defmodule EventsWeb.EventController do
 
   alias Events.Social
   alias Events.Social.Event
+  alias Events.Social.User
 
   def index(conn, _params) do
     events = Social.list_events()
@@ -29,6 +30,7 @@ defmodule EventsWeb.EventController do
   def show(conn, %{"id" => id}) do
     event = Social.get_event!(id)
     render(conn, "show.html", event: event)
+
   end
 
   def edit(conn, %{"id" => id}) do
@@ -58,4 +60,28 @@ defmodule EventsWeb.EventController do
     |> put_flash(:info, "Event deleted successfully.")
     |> redirect(to: event_path(conn, :index))
   end
+
+  def count_participants(%{"id" => id}) do
+      Social.get_participants_count(id)
+
+  end
+
+  def add_participant(conn, %{"id" => event_id} ) do
+
+    event  = Repo.get(Event, event_id) |> Repo.preload(:participants)
+    user_id = 1
+    user = Repo.get(User, user_id)
+    case Social.update_participants_list(event, user) do
+      {ok, _} ->
+        conn
+        |> put_flash(:info, "You have been joined to event")
+        |> redirect(to: event_path(conn, :index))
+      {error, _reason} ->
+        conn
+        |> put_flash(:info, "There was an error on adding participant")
+        |> redirect(to: event_path(conn, :index))
+    end
+
+  end
+
 end

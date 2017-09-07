@@ -2,6 +2,7 @@ defmodule Events.Social.Event do
   use Ecto.Schema
   import Ecto.Changeset
   alias Events.Social.Event
+  alias Events.Social.User
 
 
   schema "events" do
@@ -9,6 +10,8 @@ defmodule Events.Social.Event do
     field :description, :string
     field :duration, :integer
     field :title, :string
+    belongs_to :owner, User
+    many_to_many :participants, User, join_through: "events_users"
 
     timestamps()
   end

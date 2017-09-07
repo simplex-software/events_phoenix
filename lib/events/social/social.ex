@@ -7,6 +7,8 @@ defmodule Events.Social do
   alias Events.Repo
 
   alias Events.Social.Event
+  alias Events.Social.User
+
 
   @doc """
   Returns the list of events.
@@ -101,4 +103,20 @@ defmodule Events.Social do
   def change_event(%Event{} = event) do
     Event.changeset(event, %{})
   end
+
+  def get_participants_count(id) do
+    participants = Repo.one(from e in "events_users", select: count(e.user_id), where: e.event_id == ^id)
+    participants
+
+  end
+
+  def update_participants_list(%Event{} = event, %User{} = user) do
+    event
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_assoc(:participants, [user | event.participants])
+    |> Repo.update()
+
+  end
+
+
 end

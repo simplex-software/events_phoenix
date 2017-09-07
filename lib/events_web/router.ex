@@ -18,6 +18,7 @@ defmodule EventsWeb.Router do
 
     get "/", PageController, :index
     resources "/events", EventController
+    post "/events/:id/join", EventController, :add_participant
   end
 
 
