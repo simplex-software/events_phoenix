@@ -28,7 +28,7 @@
                 <h6><%= event.title %></h6>
               </div>
               <div class="col s6 offset-s6 right-align">
-                <a id="voy1" class="btn waves-effect waves-light light-green hoverable"><i class="material-icons left">thumb_up</i>Voy</a>
+                <%= link "Voy", to: event_path(@conn, :add_participant, event.id), method: :post, data: [confirm: "Are you sure?"], class: "btn waves-effect waves-light light-green hoverable" %>
               </div>
             </div>
             <div class="divider"></div>

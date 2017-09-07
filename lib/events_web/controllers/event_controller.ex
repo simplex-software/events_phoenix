@@ -4,6 +4,7 @@ defmodule EventsWeb.EventController do
   alias Events.Social
   alias Events.Social.Event
   alias Events.Social.User
+  alias Events.Repo
 
   def index(conn, _params) do
     events = Social.list_events()
@@ -59,11 +60,6 @@ defmodule EventsWeb.EventController do
     conn
     |> put_flash(:info, "Event deleted successfully.")
     |> redirect(to: event_path(conn, :index))
-  end
-
-  def count_participants(%{"id" => id}) do
-      Social.get_participants_count(id)
-
   end
 
   def add_participant(conn, %{"id" => event_id} ) do
