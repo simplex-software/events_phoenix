@@ -1,28 +1,31 @@
 <h2>Show Event</h2>
-
 <ul>
-
   <li>
     <strong>Title:</strong>
     <%= @event.title %>
   </li>
-
   <li>
     <strong>Description:</strong>
     <%= @event.description %>
   </li>
-
   <li>
     <strong>Date:</strong>
     <%= @event.date %>
   </li>
-
   <li>
     <strong>Duration:</strong>
     <%= @event.duration %>
   </li>
-
 </ul>
-
+<ul>
+  <%= for comment <- @event.comments do %>
+    <li>
+      <%= comment.id %>
+      <%= comment.body %>
+    </li>
+  <% end %>
+</ul>
 <span><%= link "Edit", to: event_path(@conn, :edit, @event) %></span>
 <span><%= link "Back", to: event_path(@conn, :index) %></span>
+
+<%= render EventsWeb.CommentView, "new.html", comment_changeset: @comment_changeset, conn: @conn, event: @event %>

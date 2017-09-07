@@ -3,6 +3,7 @@ defmodule EventsWeb.EventController do
 
   alias Events.Social
   alias Events.Social.Event
+  alias Events.Social.Comment
 
   def index(conn, _params) do
     events = Social.list_events()
@@ -27,8 +28,9 @@ defmodule EventsWeb.EventController do
   end
 
   def show(conn, %{"id" => id}) do
-    event = Social.get_event!(id)
-    render(conn, "show.html", event: event)
+    event = List.first(Social.get_event_with_comments!(id))
+    comment_changeset = Social.change_comment(%Comment{})
+    render(conn, "show.html", event: event, comment_changeset: comment_changeset)
   end
 
   def edit(conn, %{"id" => id}) do

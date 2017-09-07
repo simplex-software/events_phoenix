@@ -7,6 +7,7 @@ defmodule Events.Social do
   alias Events.Repo
 
   alias Events.Social.Event
+  alias Events.Social.Comment
 
   @doc """
   Returns the list of events.
@@ -37,6 +38,44 @@ defmodule Events.Social do
   """
   def get_event!(id), do: Repo.get!(Event, id)
 
+    @doc """
+    Gets an event with its comments.
+
+    Raises `Ecto.NoResultsError` if the Event does not exist.
+
+    ## Examples
+
+        iex> get_event_with_comments!(1)
+        [%Events.Social.Event{__meta__: #Ecto.Schema.Metadata<:loaded, "events">,
+          comments: [], date: ~N[2017-08-01 00:00:00.000000],
+          description: "Birras en la birreria", duration: 120, id: 1,
+          inserted_at: ~N[2017-08-29 13:06:54.000000], title: "Peña",
+          updated_at: ~N[2017-08-29 13:06:54.000000]}]
+
+  """
+  def get_event_with_comments!(id), do: Repo.all(from(e in Event, where: e.id == ^id, preload: :comments))
+
+    @doc """
+    Inserts a comment in an event.
+
+    Raises `Ecto.NoResultsError` if the Event does not exist.
+
+    ## Examples
+
+        iex> get_event!(123)
+        %Event{}
+
+        iex> get_event!(456)
+        ** (Ecto.NoResultsError)
+
+    """
+
+  def insert_comment!(event, body) do
+    comment = Ecto.Changeset.change(%Comment{}, body: body)
+    post_with_comments = Ecto.Changeset.put_assoc(event, :comments, [comment])
+    Repo.insert!(post_with_comments)
+  end
+
   @doc """
   Creates a event.
 
@@ -53,6 +92,16 @@ defmodule Events.Social do
     %Event{}
     |> Event.changeset(attrs)
     |> Repo.insert()
+  end
+
+  @doc """
+  Adds a comment to an event.
+  """
+  def create_comment(event, body) do
+    # Build a comment from the event struct
+    comment = Ecto.build_assoc(event, :comments, body: body)
+
+    Repo.insert(comment)
   end
 
   @doc """
@@ -100,5 +149,19 @@ defmodule Events.Social do
   """
   def change_event(%Event{} = event) do
     Event.changeset(event, %{})
+  end
+
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking comment changes.
+
+  ## Examples
+
+      iex> change_comment(comment)
+      %Ecto.Changeset{source: %Event{}}
+
+  """
+  def change_comment(%Comment{} = comment) do
+    Comment.changeset(comment, %{})
   end
 end

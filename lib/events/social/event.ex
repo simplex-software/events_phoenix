@@ -3,12 +3,12 @@ defmodule Events.Social.Event do
   import Ecto.Changeset
   alias Events.Social.Event
 
-
   schema "events" do
     field :date, :naive_datetime
     field :description, :string
     field :duration, :integer
     field :title, :string
+    has_many :comments, Events.Social.Comment
 
     timestamps()
   end

@@ -1,0 +1,2 @@
+<h2>New Comment</h2>
+<%= render "form.html", comment_changeset: @comment_changeset, conn: @conn, event: @event %>
