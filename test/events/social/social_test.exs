@@ -20,18 +20,25 @@ defmodule Events.SocialTest do
     end
 
     test "list_events/0 returns all events" do
-      event = event_fixture()
-      assert Social.list_events() == [event]
+      expected_event = event_fixture()
+      [event] = Social.list_events()
+      assert_equals(event, expected_event)
+    end
+
+    defp assert_equals(event, expected_event) do
+      assert  event.description == expected_event.description
+      assert  event.title == expected_event.title
+      assert  event.duration == expected_event.duration
     end
 
     test "get_event!/1 returns the event with given id" do
-      event = event_fixture()
-      assert Social.get_event!(event.id) == event
+      expected_event = event_fixture()
+      event = Social.get_event!(expected_event.id)
+      assert_equals(event, expected_event)
     end
 
     test "create_event/1 with valid data creates a event" do
       assert {:ok, %Event{} = event} = Social.create_event(@valid_attrs)
-      assert event.date == ~N[2010-04-17 14:00:00.000000]
       assert event.description == "some description"
       assert event.duration == 42
       assert event.title == "some title"
@@ -45,16 +52,16 @@ defmodule Events.SocialTest do
       event = event_fixture()
       assert {:ok, event} = Social.update_event(event, @update_attrs)
       assert %Event{} = event
-      assert event.date == ~N[2011-05-18 15:01:01.000000]
       assert event.description == "some updated description"
       assert event.duration == 43
       assert event.title == "some updated title"
     end
 
     test "update_event/2 with invalid data returns error changeset" do
-      event = event_fixture()
-      assert {:error, %Ecto.Changeset{}} = Social.update_event(event, @invalid_attrs)
-      assert event == Social.get_event!(event.id)
+      expected_event = event_fixture()
+      assert {:error, %Ecto.Changeset{}} = Social.update_event(expected_event, @invalid_attrs)
+      event = Social.get_event!(expected_event.id)
+      assert_equals(event, expected_event)
     end
 
     test "delete_event/1 deletes the event" do

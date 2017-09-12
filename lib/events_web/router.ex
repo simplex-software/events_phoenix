@@ -17,7 +17,11 @@ defmodule EventsWeb.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    get "/users/login", UserController, :login
+    post "/users/login", UserController, :session
     resources "/events", EventController
+    resources "/users", UserController, only: [:new, :create]
+
   end
 
 

@@ -1,0 +1,4 @@
+<div class="center-align">
+<h3>Login</h3>
+</div>
+<%= render "login-form.html", Map.put(assigns, :action, user_path(@conn, :session)) %>
