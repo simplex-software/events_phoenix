@@ -1,0 +1,4 @@
+<div class="center-align">
+<h3>Create account</h3>
+</div>
+<%= render "user-form.html", Map.put(assigns, :action, user_path(@conn, :create)) %>

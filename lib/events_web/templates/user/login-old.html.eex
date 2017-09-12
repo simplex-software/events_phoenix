@@ -1,0 +1,22 @@
+<div class="center-align">
+Login
+</div>
+<div class="row">
+    <form class="col s6 offset-s3">
+      <div class="row">
+        <div class="input-field col s12">
+          <label class="active" for="email">Email</label>
+          <input placeholder="user@mail.com" id="email" type="text" class="validate" required="">
+        </div>
+      </div>
+      <div class="row">
+      <div class="input-field col s12">
+        <input id="password" type="password" class="validate" required="">
+        <label class="active" for="password">Password</label>
+      </div>
+    </div>
+      <button class="btn waves-effect waves-light" type="submit" id=loginBtn name="action">Login
+          <i class="material-icons right">send</i>
+      </button>
+    </form>
+</div>

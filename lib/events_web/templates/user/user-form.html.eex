@@ -1,0 +1,33 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="input-field col s6 offset-s3">
+      <%= label f, :email, class: "control-label active" %>
+      <%= text_input f, :email, class: "form-control", required: "", placeholder: "user@email.com" %>
+      <%= error_tag f, :email %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s6 offset-s3">
+      <%= label f, :password, class: "control-label active" %>
+      <%= password_input f, :password, class: "form-control", required: "" %>
+      <%= error_tag f, :password %>
+    </div>
+    <div class="form-group col s6 offset-s3 center">
+      <%= submit class: "btn waves-effect waves-light" do %>Create
+        <i class="material-icons right">send</i>
+      <% end %>
+      <div>
+        <br>
+        <span><%= link "Back", class: "waves-effect waves-light btn center", to: user_path(@conn, :login) %></span>
+      </div>
+    </div>
+  </div>
+
+
+<% end %>
