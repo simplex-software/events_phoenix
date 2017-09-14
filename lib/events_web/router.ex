@@ -24,6 +24,7 @@ defmodule EventsWeb.Router do
     get "/users/login", UserController, :login
     post "/users/login", UserController, :session
     resources "/users", UserController, only: [:new, :create]
+    delete "/users/session", UserController, :logout
   end
 
   scope "/", EventsWeb do
