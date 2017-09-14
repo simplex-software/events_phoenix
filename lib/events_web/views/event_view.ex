@@ -7,4 +7,9 @@ defmodule EventsWeb.EventView do
       Social.get_participants_count(event.id)
   end
 
+  def user_events(id) do
+    Social.get_user_events(id) 
+  end
+
+
 end

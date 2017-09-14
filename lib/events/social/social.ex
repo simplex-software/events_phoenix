@@ -110,6 +110,12 @@ defmodule Events.Social do
 
   end
 
+  def get_user_events(id) do
+    user = Repo.get(Events.Social.User, id)
+    events = Repo.all(Ecto.assoc(user, :events))
+    events
+  end
+
   def update_participants_list(%Event{} = event, %User{} = user) do
     event
     |> Ecto.Changeset.change()

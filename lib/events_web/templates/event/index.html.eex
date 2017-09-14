@@ -28,38 +28,42 @@
                 <h6><%= event.title %></h6>
               </div>
               <div class="col s6 offset-s6 right-align">
-                <%= link "Voy", to: event_path(@conn, :add_participant, event.id), method: :post, data: [confirm: "Are you sure?"], class: "btn waves-effect waves-light light-green hoverable" %>
+                <%= link to: event_path(@conn, :add_participant, event.id), method: :post, data: [confirm: "Are you sure?"], class: "btn waves-effect waves-light light-green hoverable" do %>
+                  Voy
+                   <i class="material-icons center">group_add</i>
+                <% end %>
               </div>
+              <%= if event.owner_id == 1 do %>
+               <div class="col s12 right-align">
+                <a class="btn-floating waves-effect waves-light light-blue hoverable"><i class="material-icons center">edit</i></a>
+                <a class="btn-floating waves-effect waves-light red hoverable"><i class="material-icons center">delete</i></a>
+               </div>
+              <% end %>
             </div>
             <div class="divider"></div>
             <br>
           <% end %>
-
-
         </div>
 
         <!-- TAB_MIS EVENTOS -->
         <div id="mis_eventos_tab" class="col s12" style="display: flex; flex-direction: column; min-height: 100vh;">
           <br>
-          <div class="row">
-            <div class="col s6">
-              <h6>29/08/2018</h6>
+          <%= for event <- user_events(1) do %>
+            <div class="row">
+              <div class="col s6">
+                <h6><%= event.date %></h6>
+              </div>
+              <div class="col s6">
+                <span class="new badge tooltipped" data-position="top" data-delay="50" data-tooltip="Participantes que ya confirmaron" data-badge-caption=""><i class="tiny material-icons left">person</i><%= count_participants(event) %></span>
+              </div>
+              <div class="col s12">
+                <h6><%= event.title %></h6>
+              </div>
             </div>
-            <div class="col s6">
-              <span class="new badge tooltipped" data-position="top" data-delay="50" data-tooltip="Participantes que ya confirmaron" data-badge-caption="">5</span>
-            </div>
-            <div class="col s12">
-              <h6>ESTE ES UN EVENTO MIO CON UN TEXTO UN POQUITO MAS LARGO QUE ANTES.</h6>
-            </div>
-            <div class="col s12 right-align">
-              <a class="btn-floating waves-effect waves-light light-blue hoverable"><i class="material-icons center">edit</i></a>
-              <a class="btn-floating waves-effect waves-light red hoverable"><i class="material-icons center">delete</i></a>
-            </div>
-          </div>
-          <div class="divider"></div>
+            <div class="divider"></div>
 
           <br>
-
+          <% end %>
         </div>
     </div>
 
