@@ -1,15 +1,30 @@
 defmodule EventsWeb.EventControllerTest do
   use EventsWeb.ConnCase
+  import Plug.Conn
 
   alias Events.Social
+  alias Events.Accounts
 
   @create_attrs %{date: ~N[2010-04-17 14:00:00.000000], description: "some description", duration: 42, title: "some title"}
   @update_attrs %{date: ~N[2011-05-18 15:01:01.000000], description: "some updated description", duration: 43, title: "some updated title"}
   @invalid_attrs %{date: nil, description: nil, duration: nil, title: nil}
 
+  @create_user_attrs %{email: "someemail@outlook.com", password: "some password"}
+
   def fixture(:event) do
     {:ok, event} = Social.create_event(@create_attrs)
     event
+  end
+
+  setup %{conn: conn} do
+    {:ok, user} = Accounts.create_user(@create_user_attrs)
+    conn = conn
+      |> bypass_through(EventsWeb.Router, :browser)
+      |> get("/")
+      |> put_session(:user_id, user.id)
+      |> send_resp(:ok, "")
+      |> recycle()
+    %{conn: conn}
   end
 
   describe "index" do

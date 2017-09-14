@@ -13,14 +13,25 @@ defmodule EventsWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", EventsWeb do
-    pipe_through :browser # Use the default browser stack
+  pipeline :browser_session do
+    plug :browser
+    plug EventsWeb.Plugs.Authentication
+  end
 
-    get "/", PageController, :index
+  scope "/", EventsWeb do
+    pipe_through :browser
+
     get "/users/login", UserController, :login
     post "/users/login", UserController, :session
-    resources "/events", EventController
     resources "/users", UserController, only: [:new, :create]
+  end
+
+  scope "/", EventsWeb do
+    pipe_through :browser_session # Use the default browser stack
+
+    get "/", PageController, :index
+    resources "/events", EventController
+
 
   end
 

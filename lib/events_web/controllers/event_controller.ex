@@ -6,7 +6,6 @@ defmodule EventsWeb.EventController do
 
   def index(conn, _params) do
     events = Social.list_events()
-    IO.inspect events
     render(conn, "index.html", events: events)
   end
 
