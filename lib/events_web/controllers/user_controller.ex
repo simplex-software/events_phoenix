@@ -47,6 +47,14 @@ defmodule EventsWeb.UserController do
     end
   end
 
+  def logout(conn, _) do
+    conn
+    |> clear_session()
+    |> configure_session(drop: true)
+    |> put_flash(:info, "Logged out successfully")
+    |> redirect(to: user_path(conn, :login))
+  end
+
   defp reject_login(conn) do
     conn
      |> put_flash(:error, "Username or password invalid")

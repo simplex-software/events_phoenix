@@ -1,5 +1,6 @@
 defmodule EventsWeb.UserControllerTest do
   use EventsWeb.ConnCase
+  import Plug.Conn
 
   alias Events.Accounts
 
@@ -48,8 +49,28 @@ defmodule EventsWeb.UserControllerTest do
     end
   end
 
+  describe "logout" do
+    test "drops session", %{conn: conn} do
+      conn = create_session(conn)
+      conn = delete conn, user_path(conn, :logout)
+      assert redirected_to(conn) == user_path(conn, :login)
+      assert get_session(conn, :user_id) == nil
+    end
+  end
+
   defp create_user(_) do
     user = fixture(:user)
     {:ok, user: user}
   end
+
+  defp create_session(conn) do
+      {:ok, user} = Accounts.create_user(@create_attrs)
+      conn = conn
+        |> bypass_through(EventsWeb.Router, :browser)
+        |> get("/")
+        |> put_session(:user_id, user.id)
+        |> send_resp(:ok, "")
+        |> recycle()
+      conn
+    end
 end
