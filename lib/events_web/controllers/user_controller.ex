@@ -35,7 +35,7 @@ defmodule EventsWeb.UserController do
           User.is_valid_password?(db_user ,password) ->
             conn
              |> put_flash(:info, "Login successfully")
-             |> put_session(:message, id)
+             |> put_session(:user_id, id)
              |> redirect(to: page_path(conn, :index))
           true ->
             reject_login(conn)
