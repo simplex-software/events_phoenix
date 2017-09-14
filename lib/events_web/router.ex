@@ -30,7 +30,7 @@ defmodule EventsWeb.Router do
   scope "/", EventsWeb do
     pipe_through :browser_session # Use the default browser stack
 
-    get "/", PageController, :index
+    get "/", EventController, :index
     resources "/events", EventController
 
 
