@@ -12,6 +12,7 @@ defmodule EventsWeb.Plugs.Authentication do
       nil ->
         conn
         |> redirect(to: Helpers.user_path(conn, :login))
+        |> halt()
       user_id ->
         user = Accounts.get_user!(user_id)
         assign(conn, :user, user)

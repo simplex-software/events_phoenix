@@ -14,7 +14,7 @@ defmodule EventsWeb.UserController do
           {:ok, user} ->
             conn
             |> put_flash(:info, "User created successfully.")
-            |> put_session(:message, user.id)
+            |> put_session(:user_id, user.id)
             |> redirect(to: page_path(conn, :index))
           {:error, %Ecto.Changeset{} = changeset} ->
             render(conn, "new.html", changeset: changeset)
