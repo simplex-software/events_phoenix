@@ -20,4 +20,4 @@ import "phoenix_html"
 
 // import socket from "./socket"
 
-$("#sidenav-button").sideNav({menuWidth: 210});
+$("#sidenav-button").sideNav({menuWidth: 280});

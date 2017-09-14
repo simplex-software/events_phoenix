@@ -18,24 +18,31 @@
       <div class="nav-wrapper">
 	<a href="#" class="brand-logo center">Events</a>
 	<ul id="nav-mobile" class="left">
+	  <%= if assigns[:user] do %>
 	  <li><a href="#" data-activates="slide-out" id="sidenav-button"><i class="material-icons">menu</i></a></li>
+	  <% end %>
 	</ul>
       </div>
     </nav>
     <!-- /navbar -->
     <div class="container">
       <!-- sidenav -->
+      <%= if assigns[:user] do %>
       <ul id="slide-out" class="side-nav">
 	<li><div class="user-view">
 	    <div class="background">
               <%= img_tag(static_path(@conn,"/images/nav-background.png")) %>
 	    </div>
 	    <a href="#!user"><%= img_tag(static_path(@conn,"/images/avatar.png"), class: "circle") %></a>
-	    <a href="#!name"><span class="white-text name">John Doe</span></a>
-	    <a href="#!email"><span class="white-text email">johndoe@gmail.com</span></a>
+	    <a href="#!email"><span class="white-text email"><%= @user.email %></span></a>
 	</div></li>
-	<li><a href="#!"><i class="material-icons">power_settings_new</i>Log out</a></li>
+	<li>
+	  <%= link to: user_path(@conn, :logout), method: :delete do %>
+	  <i class="material-icons">power_settings_new</i>Log out
+	  <% end %>
+	</li>
       </ul>
+      <% end %>
       <!-- /sidenav -->
       
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
